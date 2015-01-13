@@ -3,19 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.oknaom.raduga;
+package om.okna.raduga;
 
 /**
  *
  * @author Виктор
  */
-public class GPR {
+public class Raduga {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         
+        //new Clock();
+        //new Console().setVisible(true);
         new MainFrame().setVisible(true);
         new BDArray();
     }

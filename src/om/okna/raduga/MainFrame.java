@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.oknaom.raduga;
+package om.okna.raduga;
 
-import static com.oknaom.raduga.ChangeFrame.TextFieldID;
-import static com.oknaom.raduga.ChangeFrame.itemID;
+import static om.okna.raduga.ChangeFrame.TextFieldID;
+import static om.okna.raduga.ChangeFrame.itemID;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -130,6 +130,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         while (model.getRowCount() > 0)  model.removeRow(0);
+        System.out.println("Очистка.");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

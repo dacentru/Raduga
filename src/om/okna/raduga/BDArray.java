@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.oknaom.raduga;
+package om.okna.raduga;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
-import static com.oknaom.raduga.MainFrame.jTable1;
+import static om.okna.raduga.MainFrame.jTable1;
 
 /**
  *
@@ -42,33 +42,21 @@ public class BDArray {
             String sql;
             sql = "SELECT id, one, two, three FROM gpr";
 
-            ResultSet rs = stmt.executeQuery(sql);
-
-            
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            
-            
-            while (rs.next()) {
+            try (ResultSet rs = stmt.executeQuery(sql)) {
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                 
+                
+                while (rs.next()) {
+                    
 //                int id = rs.getInt("id");
 //                String age = rs.getString("one");
 //                String first = rs.getString("two");
 //                String last = rs.getString("three");
-                
-                
-                model.addRow(new Object[] {rs.getInt("id"), rs.getString("one"), rs.getString("two"), rs.getString("three")});
+                    
+                    
+                    model.addRow(new Object[] {rs.getInt("id"), rs.getString("one"), rs.getString("two"), rs.getString("three")});
+                }
             }
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            rs.close();
             stmt.close();
             conn.close();
         } catch (SQLException se) {
