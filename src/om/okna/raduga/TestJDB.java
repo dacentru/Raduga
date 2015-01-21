@@ -15,7 +15,7 @@ import java.sql.Statement;
  *
  * @author Виктор
  */
-public class jdb {
+public class TestJDB {
 
     public static void main(String[] args) {
         String user = "GPR";//Логин пользователя

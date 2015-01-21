@@ -10,7 +10,7 @@ import java.sql.*;
  *
  * @author Виктор
  */
-public class DB {
+public class TestDB {
     // JDBC driver name and database URL
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
    static final String DB_URL = "jdbc:mysql://192.168.137.1/GPR";
@@ -19,7 +19,7 @@ public class DB {
    static final String USER = "GPR";
    static final String PASS = "repinboss12345";
    
-   public DB() {
+   public TestDB() {
    Connection conn = null;
    Statement stmt = null;
    try{

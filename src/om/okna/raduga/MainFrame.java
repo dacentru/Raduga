@@ -5,10 +5,14 @@
  */
 package om.okna.raduga;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static om.okna.raduga.ChangeFrame.TextFieldID;
-import static om.okna.raduga.ChangeFrame.itemID;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static om.okna.raduga.ChangeFrame.jTextField2;
+import static om.okna.raduga.ChangeFrame.jTextField3;
+import static om.okna.raduga.ChangeFrame.jTextField4;
 
 /**
  *
@@ -21,6 +25,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        new ReedArraySQL();
     }
 
     /**
@@ -33,7 +38,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        MainTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -41,7 +46,7 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Радуга");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        MainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -53,7 +58,7 @@ public class MainFrame extends javax.swing.JFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -64,9 +69,10 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
+        jScrollPane1.setViewportView(MainTable);
+        if (MainTable.getColumnModel().getColumnCount() > 0) {
+            MainTable.getColumnModel().getColumn(0).setResizable(false);
+            MainTable.getColumnModel().getColumn(0).setPreferredWidth(20);
         }
 
         jButton1.setText("Обновить");
@@ -124,24 +130,28 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jButton2.doClick();
-        new BDArray();
+        new ReedArraySQL();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
         while (model.getRowCount() > 0)  model.removeRow(0);
-        System.out.println("Очистка.");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        if(jTable1.requestFocusInWindow()){
-            sendMessage("Выберите строку в таблице");
+        DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
+        if(MainTable.getSelectedRow()>=0){
+            try {
+                new ChangeFrame().setVisible(true);
+                TextFieldID.setText(model.getValueAt(MainTable.getSelectedRow(), 0).toString());
+                jTextField2.setText(model.getValueAt(MainTable.getSelectedRow(), 1).toString());
+                jTextField3.setText(model.getValueAt(MainTable.getSelectedRow(), 2).toString());
+                jTextField4.setText(model.getValueAt(MainTable.getSelectedRow(), 3).toString());
+            } catch (Exception ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
-            new ChangeFrame().setVisible(true);
-            itemID = model.getValueAt(jTable1.getSelectedRow(), 0).hashCode();
-            TextFieldID.setText(model.getValueAt(jTable1.getSelectedRow(), 0).toString());
-            System.out.println(TextFieldID.getText());
+            sendMessage("Выберите строку в таблице");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 //    public static void main(String args[]) {
@@ -176,11 +186,11 @@ public class MainFrame extends javax.swing.JFrame {
 //        });
 //    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JTable MainTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
-    public static javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
     private void sendMessage(String s) {

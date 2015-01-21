@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package om.okna.raduga;
 
 import java.sql.Connection;
@@ -11,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -20,26 +13,22 @@ import java.util.logging.Logger;
  */
 public class ChangeFrame extends javax.swing.JFrame {
     
-    
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://192.168.137.1/GPR";
 
     static final String USER = "GPR";
     static final String PASS = "repinboss12345";
-
     
-    static int itemID;
+    private Connection connect = null;
+    private Statement statement = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;
     
-    public ChangeFrame() {
-        
+    public ChangeFrame() throws Exception{
         initComponents();
-        try {
-            setCompValue();
-        } catch (SQLException ex) {
-            Logger.getLogger(ChangeFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //getDataSQL();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -65,13 +54,7 @@ public class ChangeFrame extends javax.swing.JFrame {
 
         jLabel2.setText("Договор №:");
 
-        jTextField2.setText("jTextField2");
-
         jLabel3.setText("Заказчик:");
-
-        jTextField3.setText("jTextField3");
-
-        jTextField4.setText("jTextField4");
 
         jLabel4.setText("jLabel4");
 
@@ -130,7 +113,6 @@ public class ChangeFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JTextField TextFieldID;
     private javax.swing.JButton jButton1;
@@ -138,46 +120,37 @@ public class ChangeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    public static javax.swing.JTextField jTextField2;
+    public static javax.swing.JTextField jTextField3;
+    public static javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 
-    private void setCompValue() throws SQLException {
-        Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-        String sql = "SELECT one, two, three FROM gpr WHERE id="+itemID;
-        Statement st = conn.createStatement();
-        PreparedStatement pst = conn.prepareStatement("SELECT one, two, three FROM gpr WHERE id = ?");
-        pst.setString(1, "1");
-        
-        
-        try {
+    private void getDataSQL() throws Exception {
+        int id = TextFieldID.getText().hashCode();
+        try{
             Class.forName("com.mysql.jdbc.Driver");
+            
+            connect = DriverManager.getConnection(DB_URL, USER, PASS);
+            statement = connect.createStatement();
+            resultSet = statement
+                    .executeQuery("select * from gpr where id="+id);
+            
+            writeResultSet(resultSet);
+            
+        }catch(Exception e){
+            throw e;
+        }finally{
+            resultSet.close();
+            statement.close();
+            connect.close();
+        }
+    }
 
-
-            
-
-            ResultSet rs = st.executeQuery(sql);
-            
-
-            
-            
-            while (rs.next()) {
-            jTextField2.setText(rs.getString("2"));
-            jTextField3.setText(rs.getString("3"));
-            jTextField4.setText(rs.getString("4"));
-            }
-            
-            //System.out.println(rs.getString("one")+rs.getString("two")+rs.getString("three"));
-            
-            
-            rs.close();
-            st.close();
-            conn.close();
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+    private void writeResultSet(ResultSet resultSet) throws SQLException {
+        while(resultSet.next()){
+            jTextField2.setText(resultSet.getString(2));
+            jTextField3.setText(resultSet.getString(3));
+            jTextField4.setText(resultSet.getString(4));
         }
     }
 }

@@ -15,11 +15,6 @@ public class Raduga {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        //new Clock();
-        //new Console().setVisible(true);
         new MainFrame().setVisible(true);
-        new BDArray();
-    }
-    
+        } 
 }
