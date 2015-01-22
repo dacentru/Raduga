@@ -7,12 +7,8 @@ package om.okna.raduga;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static om.okna.raduga.ChangeFrame.TextFieldID;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static om.okna.raduga.ChangeFrame.jTextField2;
-import static om.okna.raduga.ChangeFrame.jTextField3;
-import static om.okna.raduga.ChangeFrame.jTextField4;
 
 /**
  *
@@ -143,10 +139,6 @@ public class MainFrame extends javax.swing.JFrame {
         if(MainTable.getSelectedRow()>=0){
             try {
                 new ChangeFrame().setVisible(true);
-                TextFieldID.setText(model.getValueAt(MainTable.getSelectedRow(), 0).toString());
-                jTextField2.setText(model.getValueAt(MainTable.getSelectedRow(), 1).toString());
-                jTextField3.setText(model.getValueAt(MainTable.getSelectedRow(), 2).toString());
-                jTextField4.setText(model.getValueAt(MainTable.getSelectedRow(), 3).toString());
             } catch (Exception ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }

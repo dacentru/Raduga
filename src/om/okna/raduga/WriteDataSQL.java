@@ -7,6 +7,7 @@ package om.okna.raduga;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,46 +18,48 @@ import static om.okna.raduga.MainFrame.MainTable;
  *
  * @author Виктор
  */
-public class ReedArraySQL {
-
+public class WriteDataSQL {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://192.168.137.1/GPR";
 
     static final String USER = "GPR";
     static final String PASS = "repinboss12345";
 
-    public ReedArraySQL() {
-        Connection conn = null;
-        Statement stmt = null;
+    private Connection connect = null;
+    private Statement statement = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;
+    
+    public WriteDataSQL(String[] data) {
+        String sql = "UPDATE `gpr`.`gpr` SET `dogovor` = '"+data[1]+"', `two` = '"+data[2]+"', `three` = '"+data[3]+"' WHERE `gpr`.`id` = "+data[0];
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            stmt = conn.createStatement();
-            String sql;
-            sql = "SELECT id, dogovor, two, three FROM gpr";
-
-            try (ResultSet rs = stmt.executeQuery(sql)) {
-                DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
-                while (rs.next()){
-                    model.addRow(new Object[] {rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)});
-                }
-            }
-            stmt.close();
-            conn.close();
+            connect = DriverManager.getConnection(DB_URL, USER, PASS);
+            statement = connect.createStatement();
+            resultSet = statement.executeQuery(sql);
+            
+            System.out.println(data[0]);
+            System.out.println(data[1]);
+            System.out.println(data[2]);
+            System.out.println(data[3]);
+            
+            resultSet.close();
+            statement.close();
+            connect.close();
         } catch (SQLException se) {
             se.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if (stmt != null) {
-                    stmt.close();
+                if (preparedStatement != null) {
+                    preparedStatement.close();
                 }
             } catch (SQLException se2) {
             }
             try {
-                if (conn != null) {
-                    conn.close();
+                if (connect != null) {
+                    connect.close();
                 }
             } catch (SQLException se) {
                 se.printStackTrace();

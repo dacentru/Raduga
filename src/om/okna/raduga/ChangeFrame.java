@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
+import static om.okna.raduga.MainFrame.MainTable;
 
 /**
  *
@@ -26,6 +28,7 @@ public class ChangeFrame extends javax.swing.JFrame {
     
     public ChangeFrame() throws Exception{
         initComponents();
+        setDataTable();
         //getDataSQL();
     }
 
@@ -51,6 +54,11 @@ public class ChangeFrame extends javax.swing.JFrame {
         TextFieldID.setText("0");
 
         jButton1.setText("Сохранить");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Договор №:");
 
@@ -113,6 +121,15 @@ public class ChangeFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String[] data = {
+            TextFieldID.getText(),
+            jTextField2.getText(),
+            jTextField3.getText(),
+            jTextField4.getText()};
+        new WriteDataSQL(data);
+    }//GEN-LAST:event_jButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JTextField TextFieldID;
     private javax.swing.JButton jButton1;
@@ -120,9 +137,9 @@ public class ChangeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    public static javax.swing.JTextField jTextField2;
-    public static javax.swing.JTextField jTextField3;
-    public static javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 
     private void getDataSQL() throws Exception {
@@ -133,7 +150,7 @@ public class ChangeFrame extends javax.swing.JFrame {
             connect = DriverManager.getConnection(DB_URL, USER, PASS);
             statement = connect.createStatement();
             resultSet = statement
-                    .executeQuery("select * from gpr where id="+id);
+                    .executeQuery("select id dogovor two three from gpr where id="+id);
             
             writeResultSet(resultSet);
             
@@ -152,5 +169,13 @@ public class ChangeFrame extends javax.swing.JFrame {
             jTextField3.setText(resultSet.getString(3));
             jTextField4.setText(resultSet.getString(4));
         }
+    }
+
+    private void setDataTable() {
+        DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
+        TextFieldID.setText(model.getValueAt(MainTable.getSelectedRow(), 0).toString());
+        jTextField2.setText(model.getValueAt(MainTable.getSelectedRow(), 1).toString());
+        jTextField3.setText(model.getValueAt(MainTable.getSelectedRow(), 2).toString());
+        jTextField4.setText(model.getValueAt(MainTable.getSelectedRow(), 3).toString());
     }
 }

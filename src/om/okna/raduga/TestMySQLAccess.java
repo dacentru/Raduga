@@ -33,8 +33,7 @@ public class TestMySQLAccess {
             writeResultSet(resultSet);
 
             // preparedStatements can use variables and are more efficient
-            preparedStatement = connect
-                    .prepareStatement("insert into  FEEDBACK.COMMENTS values (default, ?, ?, ?, ? , ?, ?)");
+            preparedStatement = connect.prepareStatement("insert into  FEEDBACK.COMMENTS values (default, ?, ?, ?, ? , ?, ?)");
       // "myuser, webpage, datum, summary, COMMENTS from FEEDBACK.COMMENTS");
             // parameters start with 1
             preparedStatement.setString(1, "Test");
