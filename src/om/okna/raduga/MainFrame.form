@@ -27,7 +27,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" pref="704" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="680" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jButton2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
@@ -44,8 +44,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="240" max="-2" attributes="0"/>
-              <EmptySpace pref="16" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="245" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -67,22 +67,52 @@
         <Component class="javax.swing.JTable" name="MainTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="10" rowCount="0">
+              <Table columnCount="15" rowCount="0">
                 <Column editable="false" title="ID" type="java.lang.Integer"/>
-                <Column editable="false" title="&#x414;&#x43e;&#x433;&#x43e;&#x432;&#x43e;&#x440; &#x2116;" type="java.lang.String"/>
                 <Column editable="false" title="&#x417;&#x430;&#x43a;&#x430;&#x437;&#x447;&#x438;&#x43a;" type="java.lang.String"/>
-                <Column editable="false" title="&#x41a;&#x43e;&#x43d;&#x442;&#x430;&#x43a;&#x442; 1" type="java.lang.String"/>
-                <Column editable="false" title="&#x41a;&#x43e;&#x43d;&#x442;&#x430;&#x43a;&#x442; 2" type="java.lang.String"/>
                 <Column editable="false" title="&#x410;&#x434;&#x440;&#x435;&#x441;" type="java.lang.String"/>
-                <Column editable="false" title="&#x41a;&#x43e;&#x43c;&#x43f;&#x43b;&#x435;&#x43a;&#x442;" type="java.lang.String"/>
+                <Column editable="false" title="&#x414;&#x43e;&#x433;&#x43e;&#x432;&#x43e;&#x440; &#x2116;" type="java.lang.String"/>
+                <Column editable="false" title="&#x420;&#x430;&#x431;&#x43e;&#x442;&#x44b;" type="java.lang.String"/>
                 <Column editable="false" title="&#x41e;&#x431;&#x44c;&#x435;&#x43c;" type="java.lang.String"/>
-                <Column editable="false" title="&#x41f;&#x440;&#x43e;&#x435;&#x43c;&#x44b;" type="java.lang.String"/>
-                <Column editable="false" title="&#x421;&#x442;&#x430;&#x442;&#x443;&#x441;" type="java.lang.String"/>
+                <Column editable="false" title="&#x41a;&#x43e;&#x43d;&#x442;&#x430;&#x43a;&#x442; &#x438;&#x441;&#x43f;." type="java.lang.String"/>
+                <Column editable="false" title="&#x41a;&#x43e;&#x43d;&#x442;&#x430;&#x43a;&#x442; &#x437;&#x430;&#x43a;." type="java.lang.String"/>
+                <Column editable="false" title="&#x41d;&#x430;&#x447;&#x430;&#x43b;&#x43e;" type="java.lang.String"/>
+                <Column editable="false" title="&#x41e;&#x43a;&#x43e;&#x43d;&#x447;&#x430;&#x43d;&#x438;&#x435;" type="java.lang.String"/>
+                <Column editable="false" title="&#x41f;&#x43e;&#x434;&#x442;&#x432;&#x435;&#x440;&#x436;&#x434;&#x435;&#x43d;&#x438;&#x435;" type="java.lang.String"/>
+                <Column editable="false" title="&#x426;&#x435;&#x43d;&#x430;" type="java.lang.String"/>
+                <Column editable="false" title="&#x41f;&#x440;&#x438;&#x43c;&#x435;&#x447;&#x430;&#x43d;&#x438;&#x435;" type="java.lang.String"/>
+                <Column editable="false" title="&#x41e;&#x43f;&#x43b;&#x430;&#x442;&#x430;" type="java.lang.String"/>
+                <Column editable="false" title="&#x414;&#x43e;&#x43b;&#x433;" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="20" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -151,6 +181,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>

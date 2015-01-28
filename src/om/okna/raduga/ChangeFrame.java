@@ -1,70 +1,81 @@
 package om.okna.raduga;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Arrays;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import static om.okna.raduga.MainFrame.MainTable;
 
-/**
- *
- * @author Виктор
- */
 public class ChangeFrame extends javax.swing.JFrame {
-    
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://192.168.137.1/GPR";
-
-    static final String USER = "GPR";
-    static final String PASS = "repinboss12345";
-    
-    private Connection connect = null;
-    private Statement statement = null;
-    private PreparedStatement preparedStatement = null;
-    private ResultSet resultSet = null;
     
     public ChangeFrame() throws Exception{
         initComponents();
-        setDataTable();
-        //getDataSQL();
+        setDataFromTable();
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        TextFieldID = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        idLabel = new javax.swing.JLabel();
+        idTextField = new javax.swing.JTextField();
+        saveButton = new javax.swing.JButton();
+        clientTextField = new javax.swing.JTextField();
+        objectTextField = new javax.swing.JTextField();
+        contractTextField = new javax.swing.JTextField();
+        nominationTextField = new javax.swing.JTextField();
+        sizeTextField = new javax.swing.JTextField();
+        contact_insideTextField = new javax.swing.JTextField();
+        contact_outsideTextField = new javax.swing.JTextField();
+        date_startTextField = new javax.swing.JTextField();
+        date_endTextField = new javax.swing.JTextField();
+        date_confirmationTextField = new javax.swing.JTextField();
+        priceTextField = new javax.swing.JTextField();
+        noteTextField = new javax.swing.JTextField();
+        paymentTextField = new javax.swing.JTextField();
+        debtTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Форма");
 
-        jLabel1.setText("ID");
+        idLabel.setText("ID");
 
-        TextFieldID.setEditable(false);
-        TextFieldID.setText("0");
+        idTextField.setEditable(false);
+        idTextField.setText("0");
 
-        jButton1.setText("Сохранить");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        saveButton.setText("Сохранить");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                saveButtonActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Договор №:");
+        clientTextField.setText("client");
 
-        jLabel3.setText("Заказчик:");
+        objectTextField.setText("object");
 
-        jLabel4.setText("jLabel4");
+        contractTextField.setText("contract");
+
+        nominationTextField.setText("nomination");
+
+        sizeTextField.setText("size");
+
+        contact_insideTextField.setText("contact_inside");
+
+        contact_outsideTextField.setText("contact_outside");
+
+        date_startTextField.setText("date_start");
+
+        date_endTextField.setText("date_end");
+
+        date_confirmationTextField.setText("date_confirmation");
+
+        priceTextField.setText("price");
+
+        noteTextField.setText("note");
+
+        paymentTextField.setText("payment");
+
+        debtTextField.setText("debt");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -73,28 +84,28 @@ public class ChangeFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(debtTextField)
+                    .addComponent(clientTextField)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addGap(0, 244, Short.MAX_VALUE)
+                        .addComponent(saveButton))
+                    .addComponent(objectTextField)
+                    .addComponent(contractTextField)
+                    .addComponent(nominationTextField)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(idLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(sizeTextField)
+                    .addComponent(contact_insideTextField)
+                    .addComponent(contact_outsideTextField)
+                    .addComponent(date_startTextField)
+                    .addComponent(date_endTextField)
+                    .addComponent(date_confirmationTextField)
+                    .addComponent(priceTextField)
+                    .addComponent(noteTextField)
+                    .addComponent(paymentTextField))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -102,80 +113,113 @@ public class ChangeFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(TextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                    .addComponent(idLabel)
+                    .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(clientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(objectTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(contractTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(nominationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(contact_insideTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(contact_outsideTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(date_startTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(date_endTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(date_confirmationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(noteTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(paymentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(debtTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(saveButton)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         String[] data = {
-            TextFieldID.getText(),
-            jTextField2.getText(),
-            jTextField3.getText(),
-            jTextField4.getText()};
+            idTextField.getText(),
+            clientTextField.getText(),
+            objectTextField.getText(),
+            contractTextField.getText(),
+            nominationTextField.getText(),
+            sizeTextField.getText(),
+            contact_insideTextField.getText(),
+            contact_outsideTextField.getText(),
+            date_startTextField.getText(),
+            date_endTextField.getText(),
+            date_confirmationTextField.getText(),
+            priceTextField.getText(),
+            noteTextField.getText(),
+            paymentTextField.getText(),
+            debtTextField.getText()
+        };
+        LogerFrame.out(Arrays.toString(data));
         new WriteDataSQL(data);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        MainFrame.jButton1.doClick();
+        this.dispose();
+        
+    }//GEN-LAST:event_saveButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public static javax.swing.JTextField TextFieldID;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField clientTextField;
+    private javax.swing.JTextField contact_insideTextField;
+    private javax.swing.JTextField contact_outsideTextField;
+    private javax.swing.JTextField contractTextField;
+    private javax.swing.JTextField date_confirmationTextField;
+    private javax.swing.JTextField date_endTextField;
+    private javax.swing.JTextField date_startTextField;
+    private javax.swing.JTextField debtTextField;
+    private javax.swing.JLabel idLabel;
+    public static javax.swing.JTextField idTextField;
+    private javax.swing.JTextField nominationTextField;
+    private javax.swing.JTextField noteTextField;
+    private javax.swing.JTextField objectTextField;
+    private javax.swing.JTextField paymentTextField;
+    private javax.swing.JTextField priceTextField;
+    private javax.swing.JButton saveButton;
+    private javax.swing.JTextField sizeTextField;
     // End of variables declaration//GEN-END:variables
 
-    private void getDataSQL() throws Exception {
-        int id = TextFieldID.getText().hashCode();
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            
-            connect = DriverManager.getConnection(DB_URL, USER, PASS);
-            statement = connect.createStatement();
-            resultSet = statement
-                    .executeQuery("select id dogovor two three from gpr where id="+id);
-            
-            writeResultSet(resultSet);
-            
-        }catch(Exception e){
-            throw e;
-        }finally{
-            resultSet.close();
-            statement.close();
-            connect.close();
-        }
-    }
-
-    private void writeResultSet(ResultSet resultSet) throws SQLException {
-        while(resultSet.next()){
-            jTextField2.setText(resultSet.getString(2));
-            jTextField3.setText(resultSet.getString(3));
-            jTextField4.setText(resultSet.getString(4));
-        }
-    }
-
-    private void setDataTable() {
+    private String getDataFromTable(int column){
         DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
-        TextFieldID.setText(model.getValueAt(MainTable.getSelectedRow(), 0).toString());
-        jTextField2.setText(model.getValueAt(MainTable.getSelectedRow(), 1).toString());
-        jTextField3.setText(model.getValueAt(MainTable.getSelectedRow(), 2).toString());
-        jTextField4.setText(model.getValueAt(MainTable.getSelectedRow(), 3).toString());
+        if(model.getValueAt(MainTable.getSelectedRow(), column) != null){
+            LogerFrame.out(model.getValueAt(MainTable.getSelectedRow(), column));
+            return model.getValueAt(MainTable.getSelectedRow(), column).toString();
+        }else{
+            return "";
+        }
+    }
+
+    private void setDataFromTable() {
+        idTextField.setText(getDataFromTable(0));
+        clientTextField.setText(getDataFromTable(1));
+        objectTextField.setText(getDataFromTable(2));
+        contractTextField.setText(getDataFromTable(3));
+        nominationTextField.setText(getDataFromTable(4));
+        sizeTextField.setText(getDataFromTable(5));
+        contact_insideTextField.setText(getDataFromTable(6));
+        contact_outsideTextField.setText(getDataFromTable(7));
+        date_startTextField.setText(getDataFromTable(8));
+        date_endTextField.setText(getDataFromTable(9));
+        date_confirmationTextField.setText(getDataFromTable(10));
+        priceTextField.setText(getDataFromTable(11));
+        noteTextField.setText(getDataFromTable(12));
+        paymentTextField.setText(getDataFromTable(13));
+        debtTextField.setText(getDataFromTable(14));
     }
 }

@@ -20,10 +20,10 @@ import static om.okna.raduga.MainFrame.MainTable;
 public class ReedArraySQL {
 
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://192.168.137.1/GPR";
+    static final String DB_URL = "jdbc:mysql://192.168.137.1/raduga";
 
-    static final String USER = "GPR";
-    static final String PASS = "repinboss12345";
+    static final String USER = "raduga";
+    static final String PASS = "12345678";
 
     public ReedArraySQL() {
         Connection conn = null;
@@ -32,13 +32,58 @@ public class ReedArraySQL {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
-            String sql;
-            sql = "SELECT id, dogovor, two, three FROM gpr";
+            String sql = "SELECT "
+                    + "id,"
+                    + "client,"
+                    + "object,"
+                    + "contract,"
+                    + "nomination,"
+                    + "size,"
+                    + "contact_inside,"
+                    + "contact_outside,"
+                    + "date_start,"
+                    + "date_end,"
+                    + "date_confirmation,"
+                    + "price, note,"
+                    + "payment,"
+                    + "debt"
+                    + " FROM registry";
 
             try (ResultSet rs = stmt.executeQuery(sql)) {
                 DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
                 while (rs.next()){
-                    model.addRow(new Object[] {rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)});
+                    model.addRow(new Object[] {
+                        rs.getInt("id"),
+                        rs.getString("client"),
+                        rs.getString("object"),
+                        rs.getString("contract"),
+                        rs.getString("nomination"),
+                        rs.getString("size"),
+                        rs.getString("contact_inside"),
+                        rs.getString("contact_outside"),
+                        rs.getString("date_start"),
+                        rs.getString("date_end"),
+                        rs.getString("date_confirmation"),
+                        rs.getString("price"),
+                        rs.getString("note"),
+                        rs.getString("payment"),
+                        rs.getString("debt")
+                    });
+//                    LogerFrame.out(rs.getInt("id"));
+//                    LogerFrame.out(rs.getString("client"));
+//                    LogerFrame.out(rs.getString("object"));
+//                    LogerFrame.out(rs.getString("contract"));
+//                    LogerFrame.out(rs.getString("nomination"));
+//                    LogerFrame.out(rs.getString("size"));
+//                    LogerFrame.out(rs.getString("contact_inside"));
+//                    LogerFrame.out(rs.getString("contact_outside"));
+//                    LogerFrame.out(rs.getString("date_start"));
+//                    LogerFrame.out(rs.getString("date_end"));
+//                    LogerFrame.out(rs.getString("date_confirmation"));
+//                    LogerFrame.out(rs.getString("price"));
+//                    LogerFrame.out(rs.getString("note"));
+//                    LogerFrame.out(rs.getString("payment"));
+//                    LogerFrame.out(rs.getString("debt"));
                 }
             }
             stmt.close();

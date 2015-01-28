@@ -1,54 +1,64 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package om.okna.raduga;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import javax.swing.table.DefaultTableModel;
-import static om.okna.raduga.MainFrame.MainTable;
+import static om.okna.raduga.ReedArraySQL.DB_URL;
+import static om.okna.raduga.ReedArraySQL.JDBC_DRIVER;
+import static om.okna.raduga.ReedArraySQL.PASS;
+import static om.okna.raduga.ReedArraySQL.USER;
 
-/**
- *
- * @author Виктор
- */
 public class WriteDataSQL {
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://192.168.137.1/GPR";
-
-    static final String USER = "GPR";
-    static final String PASS = "repinboss12345";
 
     private Connection connect = null;
-    private Statement statement = null;
     private PreparedStatement preparedStatement = null;
-    private ResultSet resultSet = null;
     
     public WriteDataSQL(String[] data) {
-        String sql = "UPDATE `gpr`.`gpr` SET `dogovor` = '"+data[1]+"', `two` = '"+data[2]+"', `three` = '"+data[3]+"' WHERE `gpr`.`id` = "+data[0];
+        String sql = "UPDATE registry SET "
+                + "client=?,"
+                + "object=?,"
+                + "contract=?,"
+                + "nomination=?,"
+                + "size=?,"
+                + "contact_inside=?,"
+                + "contact_outside=?,"
+                + "date_start=?,"
+                + "date_end=?,"
+                + "date_confirmation=?,"
+                + "price=?,"
+                + "note=?,"
+                + "payment=?,"
+                + "debt=?"
+                + " WHERE id =?";
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(JDBC_DRIVER);
             connect = DriverManager.getConnection(DB_URL, USER, PASS);
-            statement = connect.createStatement();
-            resultSet = statement.executeQuery(sql);
+            preparedStatement = connect.prepareStatement(sql);
             
-            System.out.println(data[0]);
-            System.out.println(data[1]);
-            System.out.println(data[2]);
-            System.out.println(data[3]);
+            preparedStatement.setString(1, data[1]);
+            preparedStatement.setString(2, data[2]);
+            preparedStatement.setString(3, data[3]);
+            preparedStatement.setString(4, data[4]);
+            preparedStatement.setString(5, data[5]);
+            preparedStatement.setString(6, data[6]);
+            preparedStatement.setString(7, data[7]);
+            preparedStatement.setString(8, data[8]);
+            preparedStatement.setString(9, data[9]);
+            preparedStatement.setString(10, data[10]);
+            preparedStatement.setString(11, data[11]);
+            preparedStatement.setString(12, data[12]);
+            preparedStatement.setString(13, data[13]);
+            preparedStatement.setString(14, data[14]);
+            preparedStatement.setString(15, data[0]);
             
-            resultSet.close();
-            statement.close();
+            preparedStatement.executeUpdate();
             connect.close();
         } catch (SQLException se) {
+            LogerFrame.out(se);
             se.printStackTrace();
         } catch (Exception e) {
+            LogerFrame.out(e);
             e.printStackTrace();
         } finally {
             try {
@@ -62,6 +72,7 @@ public class WriteDataSQL {
                     connect.close();
                 }
             } catch (SQLException se) {
+                LogerFrame.out(se);
                 se.printStackTrace();
             }
         }
