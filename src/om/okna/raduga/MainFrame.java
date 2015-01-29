@@ -33,15 +33,16 @@ public class MainFrame extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         MainTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        refreshButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        choiceTextField = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Радуга");
         setLocationByPlatform(true);
-        setPreferredSize(new java.awt.Dimension(1024, 400));
 
         MainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -66,16 +67,21 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        MainTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MainTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(MainTable);
         if (MainTable.getColumnModel().getColumnCount() > 0) {
             MainTable.getColumnModel().getColumn(0).setResizable(false);
             MainTable.getColumnModel().getColumn(0).setPreferredWidth(20);
         }
 
-        jButton1.setText("Обновить");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        refreshButton.setText("Обновить");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                refreshButtonActionPerformed(evt);
             }
         });
 
@@ -100,6 +106,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setText("Удалить");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,38 +120,44 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(choiceTextField)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(refreshButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(choiceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(refreshButton)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         jButton2.doClick();
         new ReedArraySQL();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
@@ -162,16 +181,60 @@ public class MainFrame extends javax.swing.JFrame {
         new AddFrame().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void MainTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MainTableMouseClicked
+        choiceTextField.setText(getTextFromCell());
+        if(evt.getClickCount()>=2) jButton3.doClick();
+    }//GEN-LAST:event_MainTableMouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        new SQLHandler().removeData(getSelectidId());
+        refreshButton.doClick();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JTable MainTable;
-    public static javax.swing.JButton jButton1;
+    private javax.swing.JTextField choiceTextField;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JScrollPane jScrollPane1;
+    public static javax.swing.JButton refreshButton;
     // End of variables declaration//GEN-END:variables
 
     private void sendMessage(String s) {
         JOptionPane.showMessageDialog(null, s, "Предупреждение.", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private String getTextFromCell() {
+        DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
+        String res = "";
+        try{
+            res = model.getValueAt(MainTable.getSelectedRow(), MainTable.getSelectedColumn()).toString();
+        }catch(Exception e){
+            LogerFrame.out("Ошибка: "+e);
+        }
+        LogerFrame.out(res);
+        return res;
+    }
+
+    private int getSelectidId() {
+        String msg = "Удаляется заказчик с ID = ";
+        DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
+//        if(model.getValueAt(MainTable.getSelectedRow(), 0) != null){
+//            LogerFrame.out(msg + model.getValueAt(MainTable.getSelectedRow(), 0));
+//            return model.getValueAt(MainTable.getSelectedRow(), 0).hashCode();
+//        }else{
+//            sendMessage("Ошибка: Вы не выбрали строку для удаления");
+//            return 0;
+//        }
+        try{
+            LogerFrame.out(msg + model.getValueAt(MainTable.getSelectedRow(), 0));
+            return model.getValueAt(MainTable.getSelectedRow(), 0).hashCode();
+        }catch(Exception e){
+            LogerFrame.out("Ошибка: "+e);
+            sendMessage("Ошибка: Вы не выбрали строку для удаления");
+            return 0;
+        }
     }
 }

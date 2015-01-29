@@ -19,7 +19,16 @@ public class SQLHandler {
                 + "object,"
                 + "contract,"
                 + "nomination,"
-                + "size) values (?,?,?,?,?)";
+                + "size,"
+                + "contact_inside,"
+                + "contact_outside,"
+                + "date_start,"
+                + "date_end,"
+                + "date_confirmation,"
+                + "price,"
+                + "note,"
+                + "payment,"
+                + "debt) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try{
             Class.forName(JDBC_DRIVER);
             Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -30,6 +39,15 @@ public class SQLHandler {
             ps.setString(3, data[3]);
             ps.setString(4, data[4]);
             ps.setString(5, data[5]);
+            ps.setString(6, data[6]);
+            ps.setString(7, data[7]);
+            ps.setString(8, data[8]);
+            ps.setString(9, data[9]);
+            ps.setString(10, data[10]);
+            ps.setString(11, data[11]);
+            ps.setString(12, data[12]);
+            ps.setString(13, data[13]);
+            ps.setString(14, data[14]);
             
             ps.execute();
         }catch(ClassNotFoundException | SQLException e){
@@ -38,7 +56,7 @@ public class SQLHandler {
     }
     
     public void updateData(String[] data){
-        String query = "UPDATE registry SET "
+        String query = "update registry set "
                 + "client=?,"
                 + "object=?,"
                 + "contract=?,"
@@ -52,7 +70,7 @@ public class SQLHandler {
                 + "price=?,"
                 + "note=?,"
                 + "payment=?,"
-                + "debt=? WHERE id =?";
+                + "debt=? where id =?";
         try {
             Class.forName(JDBC_DRIVER);
             Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -77,6 +95,22 @@ public class SQLHandler {
             ps.executeUpdate();
             con.close();
         }catch(ClassNotFoundException | SQLException e){
+            LogerFrame.out(e);
+        }
+    }
+    
+    public void removeData(int id){
+        String query = "delete from registry where id =?";
+        try {
+            Class.forName(JDBC_DRIVER);
+            Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
             LogerFrame.out(e);
         }
     }
