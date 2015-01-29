@@ -71,7 +71,7 @@ public class WriteDataSQL {
                 if (connect != null) {
                     connect.close();
                 }
-            } catch (SQLException se) {
+            }catch(SQLException se){
                 LogerFrame.out(se);
                 se.printStackTrace();
             }

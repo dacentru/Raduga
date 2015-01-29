@@ -36,6 +36,7 @@ public class ChangeFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Форма");
+        setLocationByPlatform(true);
 
         idLabel.setText("ID");
 
@@ -170,7 +171,8 @@ public class ChangeFrame extends javax.swing.JFrame {
             debtTextField.getText()
         };
         LogerFrame.out(Arrays.toString(data));
-        new WriteDataSQL(data);
+        //new WriteDataSQL(data);
+        new SQLHandler().updateData(data);
         MainFrame.jButton1.doClick();
         this.dispose();
         
