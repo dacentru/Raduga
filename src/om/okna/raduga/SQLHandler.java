@@ -50,6 +50,7 @@ public class SQLHandler {
             ps.setString(14, data[14]);
             
             ps.execute();
+            con.close();
         }catch(ClassNotFoundException | SQLException e){
             LogerFrame.out(e);
         }

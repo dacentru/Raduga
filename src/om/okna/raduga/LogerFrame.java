@@ -1,17 +1,18 @@
 package om.okna.raduga;
 
-/**
- *
- * @author Виктор
- */
+import java.util.Date;
+import static om.okna.raduga.Raduga.image;
+
 public class LogerFrame extends javax.swing.JFrame {
-    
+
     public LogerFrame() {
         initComponents();
+        setIconImage(image.getImage());
     }
     
     static void out(String s){
-        LogTextArea.setText(LogTextArea.getText() + "\n" + s);
+        String ss = new Date().getTime() + " - " + s;
+        LogTextArea.setText(LogTextArea.getText() + "\n" + ss);
     }
     
     static void out(Object o){
@@ -43,11 +44,11 @@ public class LogerFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
 
         pack();
