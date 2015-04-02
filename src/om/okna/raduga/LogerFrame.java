@@ -1,5 +1,6 @@
 package om.okna.raduga;
 
+import java.util.Arrays;
 import java.util.Date;
 import static om.okna.raduga.Raduga.image;
 
@@ -11,12 +12,16 @@ public class LogerFrame extends javax.swing.JFrame {
     }
     
     static void out(String s){
-        String ss = new Date().getTime() + " - " + s;
-        LogTextArea.setText(LogTextArea.getText() + "\n" + ss);
+        String st = new Date().getTime() + " - " + s;
+        LogTextArea.setText(LogTextArea.getText() + "\n" + st);
     }
     
     static void out(Object o){
         out(o.toString());
+    }
+    
+    static void out(String[] s){
+        Arrays.toString(s);
     }
     
     static void out(int i){

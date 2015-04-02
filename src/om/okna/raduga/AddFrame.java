@@ -48,7 +48,7 @@ public class AddFrame extends javax.swing.JFrame {
         noteTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Форма добавления заказичка");
+        setTitle("Форма добавления заказа");
         setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(330, 449));
         setResizable(false);

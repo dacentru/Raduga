@@ -29,9 +29,9 @@ public class PasswordFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Введите мимя пользователя и пароль:");
 
-        jTextField1.setText("Имя");
+        jTextField1.setText("Dmitriy");
 
-        jPasswordField1.setText("jPasswordField1");
+        jPasswordField1.setText("repinboss12345");
         jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPasswordField1KeyPressed(evt);
@@ -79,14 +79,15 @@ public class PasswordFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int pass = Arrays.hashCode(jPasswordField1.getPassword());
-        if(pass==626159493){
+        String pass = new String(jPasswordField1.getPassword());
+        String name = jTextField1.getText().toLowerCase();
+        if("dmitriy".equals(name) & "repinboss12345".equals(pass)){
+            LogerFrame.out("Пароль принят.");
             new SQLHandler().removeData(getSelectidId());
         }else{
             sendMessage("Введен неверный логин или пароль.");
         }
         refreshButton.doClick();
-        LogerFrame.out(pass);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
