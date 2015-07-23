@@ -1,7 +1,6 @@
 package om.okna.raduga;
 
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
 import static om.okna.raduga.MainFrame.getSelectidId;
 import static om.okna.raduga.MainFrame.refreshButton;
 import static om.okna.raduga.MainFrame.sendMessage;

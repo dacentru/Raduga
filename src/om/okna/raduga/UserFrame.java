@@ -179,6 +179,6 @@ public class UserFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void enterEvent(KeyEvent evt) {
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) jButton1.doClick();
+        if (KeyEvent.VK_ENTER == evt.getKeyCode()) jButton1.doClick();
     }
 }

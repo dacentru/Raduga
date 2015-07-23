@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import static om.okna.raduga.Raduga.image;
+import om.okna.sill.MainSillFrame;
 
 public class MainFrame extends javax.swing.JFrame {
     
@@ -41,9 +42,9 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        userMenu = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        userEditMenuItem = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem11 = new javax.swing.JMenuItem();
@@ -165,7 +166,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Пользователи");
+        userMenu.setText("Пользователи");
 
         jMenuItem1.setText("Добавить");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -173,15 +174,15 @@ public class MainFrame extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        userMenu.add(jMenuItem1);
 
-        jMenuItem4.setText("Редактировать");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        userEditMenuItem.setText("Редактировать");
+        userEditMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                userEditMenuItemActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem4);
+        userMenu.add(userEditMenuItem);
 
         jMenuItem5.setText("Удалить");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -189,13 +190,18 @@ public class MainFrame extends javax.swing.JFrame {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem5);
+        userMenu.add(jMenuItem5);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(userMenu);
 
         jMenu4.setText("Дополнительно");
 
         jMenuItem11.setText("Калькулятор подоконников");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem11);
 
         jMenuItem10.setText("Параметры");
@@ -306,23 +312,24 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        if(userAccess==9){
-            new AddUserFrame().setVisible(true);
+        if(userAccess >= Config.maxAccessLevel){
+            new UserEditFrame().setVisible(true);
         }else{
             sendMessage("У вас нет прав на добавление пользователей");
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        if(userAccess==9){
-            JOptionPane.showInputDialog("Введитье ник пользователя");
+    private void userEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userEditMenuItemActionPerformed
+        if(userAccess >= Config.maxAccessLevel){
+            new ChoiseFrame().setVisible(true);
+            //new UserEditFrame().editUser(Integer.valueOf(JOptionPane.showInputDialog("Введитье ID пользователя")));
         }else{
             sendMessage("У вас нет прав на редактирование пользователей");
         }
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_userEditMenuItemActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        if(userAccess==9){
+        if(userAccess >= Config.maxAccessLevel){
             JOptionPane.showInputDialog("Введитье ник пользователя");
         }else{
             sendMessage("У вас нет прав на удаление пользователей");
@@ -333,6 +340,10 @@ public class MainFrame extends javax.swing.JFrame {
         new OptionsFrame().setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        new MainSillFrame().setVisible(true);;
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JTable MainTable;
     private javax.swing.JTextField choiceTextField;
@@ -340,7 +351,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
@@ -349,7 +359,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
@@ -358,6 +367,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     public static javax.swing.JButton refreshButton;
     private javax.swing.JButton removeButton;
+    private javax.swing.JMenuItem userEditMenuItem;
+    private javax.swing.JMenu userMenu;
     // End of variables declaration//GEN-END:variables
 
     public static void sendMessage(String s) {

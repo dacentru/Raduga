@@ -14,10 +14,28 @@ import java.util.Arrays;
  *
  * @author Виктор
  */
-public class AddUserFrame extends javax.swing.JFrame {
+public class UserEditFrame extends javax.swing.JFrame {
 
-    public AddUserFrame() {
+    public UserEditFrame() {
         initComponents();
+        this.setVisible(true);
+    }
+    
+    public void editUser(int id){
+        String data[] = new SQLHandler().getUserData(id);
+        idLabel.setText(data[0]);
+        userTextField.setText(data[1]);
+        //passwordTextField.setText(data[2]);
+        emailTextField.setText(data[3]);
+        nameTextField.setText(data[5]);
+        lastnameTextField.setText(data[6]);
+        pathnameTextField.setText(data[7]);
+        LogerFrame.out("Уровень доступа в базе: " + data[8]);
+        try{
+            accessComboBox.setSelectedIndex(Integer.valueOf(data[8]));
+        }catch(Exception e){
+            LogerFrame.errout(e);
+        }
     }
     
     private String getCustom(String s) {
@@ -44,14 +62,12 @@ public class AddUserFrame extends javax.swing.JFrame {
 
         return md5Hex;
     }
-
-    ;
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
         userTextField = new javax.swing.JTextField();
         passwordTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -62,17 +78,19 @@ public class AddUserFrame extends javax.swing.JFrame {
         lastnameTextField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         pathnameTextField = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
+        accessComboBox = new javax.swing.JComboBox();
         emailTextField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        idLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Создать пользователя");
 
-        jButton1.setText("Сохранить");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        saveButton.setText("Сохранить");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                saveButtonActionPerformed(evt);
             }
         });
 
@@ -86,9 +104,18 @@ public class AddUserFrame extends javax.swing.JFrame {
 
         jLabel5.setText("Отчество:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Гость", "Пользователь", "Редактор", "Администратор" }));
+        accessComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Гость", "Пользователь", "Редактор", "Администратор" }));
+        accessComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accessComboBoxActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Почта:");
+
+        jLabel7.setText("ID:");
+
+        idLabel.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,14 +125,17 @@ public class AddUserFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(idLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saveButton)
                         .addGap(10, 10, 10))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(accessComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lastnameTextField, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(nameTextField, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(pathnameTextField)
@@ -153,45 +183,59 @@ public class AddUserFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(accessComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(saveButton)
+                    .addComponent(jLabel7)
+                    .addComponent(idLabel))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         String[] data = {
-            "",
+            idLabel.getText(),
             userTextField.getText(),
             getCustom(passwordTextField.getText()),
             emailTextField.getText(),
             nameTextField.getText(),
             lastnameTextField.getText(),
             pathnameTextField.getText(),
-            "0"
+            String.valueOf(accessComboBox.getSelectedIndex())
         };
-        LogerFrame.out("Добавление нового пользователя в базу: "+Arrays.toString(data));
-        new SQLHandler().addUser(data);
+        if ("0".equals(idLabel.getText())){
+            new SQLHandler().addUser(data);
+            LogerFrame.out("Добавление нового пользователя в базу: "+Arrays.toString(data));
+        }else{
+            new SQLHandler().updateUser(data);
+            LogerFrame.out("Обновление информации '"+userTextField.getText()+"' пользователя: "+Arrays.toString(data));
+        }
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void accessComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accessComboBoxActionPerformed
+        LogerFrame.out("Выбран уровень доступа: " + accessComboBox.getSelectedIndex());
+    }//GEN-LAST:event_accessComboBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox accessComboBox;
     private javax.swing.JTextField emailTextField;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel idLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField lastnameTextField;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JTextField passwordTextField;
     private javax.swing.JTextField pathnameTextField;
+    private javax.swing.JButton saveButton;
     private javax.swing.JTextField userTextField;
     // End of variables declaration//GEN-END:variables
 }

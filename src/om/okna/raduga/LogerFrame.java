@@ -6,6 +6,17 @@ import static om.okna.raduga.Raduga.image;
 
 public class LogerFrame extends javax.swing.JFrame {
 
+    static void errout(Exception e) {
+        out("Ошибка: " + e);
+    }
+    static void errout(String s) {
+        out("Ошибка: " + s);
+    }
+
+    static void close() {
+        
+    }
+
     public LogerFrame() {
         initComponents();
         setIconImage(image.getImage());
