@@ -312,7 +312,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        if(userAccess >= Config.maxAccessLevel){
+        if(userAccess >= Options.maxAccessLevel){
             new UserEditFrame().setVisible(true);
         }else{
             sendMessage("У вас нет прав на добавление пользователей");
@@ -320,7 +320,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void userEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userEditMenuItemActionPerformed
-        if(userAccess >= Config.maxAccessLevel){
+        if(userAccess >= Options.maxAccessLevel){
             new ChoiseFrame().setVisible(true);
             //new UserEditFrame().editUser(Integer.valueOf(JOptionPane.showInputDialog("Введитье ID пользователя")));
         }else{
@@ -329,7 +329,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_userEditMenuItemActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        if(userAccess >= Config.maxAccessLevel){
+        if(userAccess >= Options.maxAccessLevel){
             JOptionPane.showInputDialog("Введитье ник пользователя");
         }else{
             sendMessage("У вас нет прав на удаление пользователей");

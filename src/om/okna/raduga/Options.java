@@ -9,6 +9,20 @@ package om.okna.raduga;
  *
  * @author Виктор
  */
-public class Config {
+public class Options {
+    
+    public static boolean debugMode;
     public static int maxAccessLevel = 3;
+
+    static String[] getAll() {
+        String a[] = {
+            String.valueOf(debugMode),
+            String.valueOf(maxAccessLevel)
+        };
+        return a;
+    }
+    
+    public Options(){
+        
+    }
 }

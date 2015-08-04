@@ -1,5 +1,7 @@
 package om.okna.sill;
 
+import om.okna.raduga.Loader;
+
 /**
  *
  * @author Виктор
