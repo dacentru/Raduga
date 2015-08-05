@@ -272,7 +272,7 @@ public class AddFrame extends javax.swing.JFrame {
             paymentTextField.getText(),
             debtTextField.getText()
         };
-        LogerFrame.out("Записан новый массив в базу: "+Arrays.toString(data));
+        Loger.out("Записан новый массив в базу: "+Arrays.toString(data));
         new SQLHandler().newClient(data);
         MainFrame.refreshButton.doClick();
         this.dispose();

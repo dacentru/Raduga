@@ -9,10 +9,6 @@ import java.io.File;
 import static java.io.File.separator;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URL;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -51,8 +47,7 @@ public class Loader {
     }
     
     static String getLoadURL(){
-        String url = "http://192.168.137.1/raduga/";
-        return url;
+        return Options.loadURL;
     }
     
     static File getRootFolder(){

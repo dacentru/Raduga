@@ -288,7 +288,7 @@ public class ChangeFrame extends javax.swing.JFrame {
             paymentTextField.getText(),
             debtTextField.getText()
         };
-        LogerFrame.out("Записан массив данных в базу: "+Arrays.toString(data));
+        Loger.out("Записан массив данных в базу: "+Arrays.toString(data));
         new SQLHandler().updateData(data);
         MainFrame.refreshButton.doClick();
         this.dispose();
@@ -338,7 +338,7 @@ public class ChangeFrame extends javax.swing.JFrame {
     private String getDataFromTable(int column){
         DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
         if(model.getValueAt(MainTable.getSelectedRow(), column) != null){
-            LogerFrame.out("Получена ячейка "+column+":"
+            Loger.out("Получена ячейка "+column+":"
                     + " "+model.getValueAt(MainTable.getSelectedRow(), column));
             return model.getValueAt(MainTable.getSelectedRow(), column).toString();
         }else{

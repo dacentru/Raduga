@@ -30,11 +30,11 @@ public class UserEditFrame extends javax.swing.JFrame {
         nameTextField.setText(data[5]);
         lastnameTextField.setText(data[6]);
         pathnameTextField.setText(data[7]);
-        LogerFrame.out("Уровень доступа в базе: " + data[8]);
+        Loger.out("Уровень доступа в базе: " + data[8]);
         try{
             accessComboBox.setSelectedIndex(Integer.valueOf(data[8]));
         }catch(Exception e){
-            LogerFrame.errout(e);
+            Loger.errout(e);
         }
     }
     
@@ -50,7 +50,7 @@ public class UserEditFrame extends javax.swing.JFrame {
         } catch (NoSuchAlgorithmException e) {
             // тут можно обработать ошибку
             // возникает она если в передаваемый алгоритм в getInstance(,,,) не существует
-            LogerFrame.out(e);
+            Loger.out(e);
         }
 
         BigInteger bigInt = new BigInteger(1, digest);
@@ -208,16 +208,16 @@ public class UserEditFrame extends javax.swing.JFrame {
         };
         if ("0".equals(idLabel.getText())){
             new SQLHandler().addUser(data);
-            LogerFrame.out("Добавление нового пользователя в базу: "+Arrays.toString(data));
+            Loger.out("Добавление нового пользователя в базу: "+Arrays.toString(data));
         }else{
             new SQLHandler().updateUser(data);
-            LogerFrame.out("Обновление информации '"+userTextField.getText()+"' пользователя: "+Arrays.toString(data));
+            Loger.out("Обновление информации '"+userTextField.getText()+"' пользователя: "+Arrays.toString(data));
         }
         this.dispose();
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void accessComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accessComboBoxActionPerformed
-        LogerFrame.out("Выбран уровень доступа: " + accessComboBox.getSelectedIndex());
+        Loger.out("Выбран уровень доступа: " + accessComboBox.getSelectedIndex());
     }//GEN-LAST:event_accessComboBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

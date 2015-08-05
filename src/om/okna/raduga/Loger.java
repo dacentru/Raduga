@@ -4,20 +4,20 @@ import java.util.Arrays;
 import java.util.Date;
 import static om.okna.raduga.Raduga.image;
 
-public class LogerFrame extends javax.swing.JFrame {
+public class Loger extends javax.swing.JFrame {
 
     static void errout(Exception e) {
-        out("Ошибка: " + e);
+        out("Ошибка: "+e);
     }
     static void errout(String s) {
-        out("Ошибка: " + s);
+        out("Ошибка: "+s);
     }
 
     static void close() {
         
     }
 
-    public LogerFrame() {
+    public Loger() {
         initComponents();
         setIconImage(image.getImage());
     }

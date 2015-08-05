@@ -9,14 +9,82 @@ import java.sql.Statement;
 import java.util.Arrays;
 import javax.swing.table.DefaultTableModel;
 import static om.okna.raduga.ChoiseFrame.userListTable;
+import static om.okna.raduga.MainFrame.MainTable;
 
 public class SQLHandler {
     
-    static String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static String DB_URL = "jdbc:mysql://192.168.137.1/raduga";
+    public SQLHandler(){
+        readArraySQL();
+    }
+    
+    public void readArraySQL() {
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            Class.forName(Options.JDBC_DRIVER);
+            conn = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS);
+            stmt = conn.createStatement();
+            String sql = "SELECT "
+                    + "id,"
+                    + "client,"
+                    + "object,"
+                    + "contract,"
+                    + "nomination,"
+                    + "size,"
+                    + "contact_inside,"
+                    + "contact_outside,"
+                    + "date_start,"
+                    + "date_end,"
+                    + "date_confirmation,"
+                    + "price, note,"
+                    + "payment,"
+                    + "debt"
+                    + " FROM registry";
 
-    static String USER = "raduga";
-    static String PASS = "12345678";
+            try (ResultSet rs = stmt.executeQuery(sql)) {
+                DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
+                while (rs.next()) {
+                    model.addRow(new Object[]{
+                        rs.getInt("id"),
+                        rs.getString("client"),
+                        rs.getString("object"),
+                        rs.getString("contract"),
+                        rs.getString("nomination"),
+                        rs.getString("size"),
+                        rs.getString("contact_inside"),
+                        rs.getString("contact_outside"),
+                        rs.getString("date_start"),
+                        rs.getString("date_end"),
+                        rs.getString("date_confirmation"),
+                        rs.getString("price"),
+                        rs.getString("note"),
+                        rs.getString("payment"),
+                        rs.getString("debt")
+                    });
+                }
+            }
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se2) {
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
     
     void newClient(String[] data){
         String query = "insert into registry "
@@ -35,8 +103,8 @@ public class SQLHandler {
                 + "payment,"
                 + "debt) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try{
-            Class.forName(JDBC_DRIVER);
-            try (Connection con = DriverManager.getConnection(DB_URL, USER, PASS)) {
+            Class.forName(Options.JDBC_DRIVER);
+            try (Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS)) {
                 PreparedStatement ps = con.prepareStatement(query);
                 
                 ps.setString(1, data[1]);
@@ -57,7 +125,7 @@ public class SQLHandler {
                 ps.execute();
             }
         }catch(ClassNotFoundException | SQLException e){
-            LogerFrame.out(e);
+            Loger.out(e);
         }
     }
     
@@ -78,8 +146,8 @@ public class SQLHandler {
                 + "payment=?,"
                 + "debt=? where id =?";
         try {
-            Class.forName(JDBC_DRIVER);
-            try (Connection con = DriverManager.getConnection(DB_URL, USER, PASS)) {
+            Class.forName(Options.JDBC_DRIVER);
+            try (Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS)) {
                 PreparedStatement ps = con.prepareStatement(query);
                 
                 ps.setString(1, data[1]);
@@ -101,15 +169,15 @@ public class SQLHandler {
                 ps.executeUpdate();
             }
         }catch(ClassNotFoundException | SQLException e){
-            LogerFrame.out(e);
+            Loger.out(e);
         }
     }
     
     void removeData(int id){
         String query = "delete from registry where id =?";
         try {
-            Class.forName(JDBC_DRIVER);
-            try (Connection con = DriverManager.getConnection(DB_URL, USER, PASS)) {
+            Class.forName(Options.JDBC_DRIVER);
+            try (Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS)) {
                 PreparedStatement ps = con.prepareStatement(query);
                 
                 ps.setInt(1, id);
@@ -117,7 +185,7 @@ public class SQLHandler {
                 ps.executeUpdate();
             }
         } catch (ClassNotFoundException | SQLException e) {
-            LogerFrame.out(e);
+            Loger.out(e);
         }
     }
 
@@ -125,8 +193,8 @@ public class SQLHandler {
         String query = "select password from raduga.users where username='"+user+"'";
         String res = null;
         try {
-            Class.forName(JDBC_DRIVER);
-            Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
+            Class.forName(Options.JDBC_DRIVER);
+            Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS);
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while(rs.next()){
@@ -135,7 +203,7 @@ public class SQLHandler {
             st.close();
             con.close();
         } catch (ClassNotFoundException | SQLException e) {
-            LogerFrame.out(e);
+            Loger.out(e);
         }
         return res;
     }
@@ -144,15 +212,15 @@ public class SQLHandler {
         String query = "select security from users where username='"+user+"'";
         int res = 0;
         try {
-            Class.forName(JDBC_DRIVER);
-            try (Connection con = DriverManager.getConnection(DB_URL, USER, PASS); Statement st = con.createStatement()) {
+            Class.forName(Options.JDBC_DRIVER);
+            try (Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS); Statement st = con.createStatement()) {
                 ResultSet rs = st.executeQuery(query);
                 while(rs.next()){
                     res = rs.getInt(1);
                 }
             }
         } catch (ClassNotFoundException | SQLException e) {
-            LogerFrame.out(e);
+            Loger.out(e);
         }
         return res;
     }
@@ -167,8 +235,8 @@ public class SQLHandler {
                 + "patronymic_name,"
                 + "security) values (?,?,?,?,?,?,?)";
         try{
-            Class.forName(JDBC_DRIVER);
-            Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
+            Class.forName(Options.JDBC_DRIVER);
+            Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS);
             PreparedStatement ps = con.prepareStatement(query);
             
             ps.setString(1, data[1]);
@@ -182,7 +250,7 @@ public class SQLHandler {
             ps.execute();
             con.close();
         }catch(ClassNotFoundException | SQLException e){
-            LogerFrame.out(e);
+            Loger.out(e);
         }
     }
 
@@ -190,8 +258,8 @@ public class SQLHandler {
         String query = "select * from raduga.users where id='"+id+"'";
         String[] data = new String[9];
         try {
-            Class.forName(JDBC_DRIVER);
-            try (Connection con = DriverManager.getConnection(DB_URL, USER, PASS); Statement st = con.createStatement()) {
+            Class.forName(Options.JDBC_DRIVER);
+            try (Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS); Statement st = con.createStatement()) {
                 ResultSet rs = st.executeQuery(query);
                 while(rs.next()){
                     data[0] = rs.getString(1);
@@ -204,17 +272,17 @@ public class SQLHandler {
                     data[7] = rs.getString(8);
                     data[8] = rs.getString(9);
                 }
-                LogerFrame.out(data);
+                Loger.out(data);
             }
         } catch (ClassNotFoundException | SQLException e) {
-            LogerFrame.errout(e);
+            Loger.errout(e);
         }
         return data;
     }
 
     void updateUser(String[] data) {
-        LogerFrame.out("Обновление информации в базе: "+Arrays.toString(data));
-        LogerFrame.errout("НЕ РАБОТАЕТ");
+        Loger.out("Обновление информации в базе: "+Arrays.toString(data));
+        Loger.errout("НЕ РАБОТАЕТ");
         throw new UnsupportedOperationException("НЕ РАБОТАЕТ"); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -223,7 +291,7 @@ public class SQLHandler {
         Statement stmt = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS);
             stmt = conn.createStatement();
             String sql = "SELECT id, username FROM users";
 

@@ -9,7 +9,7 @@ public class Raduga {
     public static void main(String[] args) {
         
         new Options();
-        new LogerFrame().setVisible(true);
+        if(Options.debugMode)new Loger().setVisible(true);
         new UserFrame().setVisible(true);
         }
 }

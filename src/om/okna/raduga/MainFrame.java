@@ -15,7 +15,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         setIconImage(image.getImage());
-        new ReedArraySQL();
+        new SQLHandler();
         
         UIManager.put("OptionPane.yesButtonText", "Да");
         UIManager.put("OptionPane.noButtonText", "Нет");
@@ -266,7 +266,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         clearTable();
-        new ReedArraySQL();
+        new SQLHandler();
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -381,9 +381,9 @@ public class MainFrame extends javax.swing.JFrame {
         try{
             res = model.getValueAt(MainTable.getSelectedRow(), MainTable.getSelectedColumn()).toString();
         }catch(Exception e){
-            LogerFrame.out("Ошибка: "+e);
+            Loger.out("Ошибка: "+e);
         }
-        LogerFrame.out("Данные выбранной ячейки: "+res);
+        Loger.out("Данные выбранной ячейки: "+res);
         return res;
     }
 
@@ -391,10 +391,10 @@ public class MainFrame extends javax.swing.JFrame {
         String msg = "Удаляется заказчик с ID = ";
         DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
         try{
-            LogerFrame.out(msg + model.getValueAt(MainTable.getSelectedRow(), 0));
+            Loger.out(msg + model.getValueAt(MainTable.getSelectedRow(), 0));
             return model.getValueAt(MainTable.getSelectedRow(), 0).hashCode();
         }catch(Exception e){
-            LogerFrame.out("Ошибка: "+e);
+            Loger.out("Ошибка: "+e);
             return 0;
         }
     }

@@ -28,7 +28,7 @@ public class UserFrame extends javax.swing.JFrame {
         } catch (NoSuchAlgorithmException e) {
             // тут можно обработать ошибку
             // возникает она если в передаваемый алгоритм в getInstance(,,,) не существует
-            LogerFrame.out(e);
+            Loger.out(e);
         }
 
         BigInteger bigInt = new BigInteger(1, digest);
@@ -140,12 +140,12 @@ public class UserFrame extends javax.swing.JFrame {
         String user = jTextField1.getText().toLowerCase();
         String pass = getCustom(new String(jPasswordField1.getPassword()));
         String passSQL = new SQLHandler().userLogin(user);
-        LogerFrame.out("Отправляем пароль " + pass + " пользователя " + user);
-        LogerFrame.out("Получаем пароль " + passSQL + " пользователя " + user + " с сервера");       
+        Loger.out("Отправляем пароль " + pass + " пользователя " + user);
+        Loger.out("Получаем пароль " + passSQL + " пользователя " + user + " с сервера");       
         if(pass == null ? passSQL != null : !pass.equals(passSQL)){
-            LogerFrame.out("Неверно введен пользователь или пароль");
+            Loger.out("Неверно введен пользователь или пароль");
         }else{
-            LogerFrame.out("Пользователь "+user+" принят");
+            Loger.out("Пользователь "+user+" принят");
             new MainFrame().setVisible(true);
             MainFrame.userAccess = new SQLHandler().userAccess(user);
             this.dispose();

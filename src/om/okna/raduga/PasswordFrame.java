@@ -81,7 +81,7 @@ public class PasswordFrame extends javax.swing.JFrame {
         String pass = new String(jPasswordField1.getPassword());
         String name = jTextField1.getText().toLowerCase();
         if("dmitriy".equals(name) & "repinboss12345".equals(pass)){
-            LogerFrame.out("Пароль принят.");
+            Loger.out("Пароль принят.");
             new SQLHandler().removeData(getSelectidId());
         }else{
             sendMessage("Введен неверный логин или пароль.");
