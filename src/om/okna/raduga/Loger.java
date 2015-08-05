@@ -1,8 +1,9 @@
 package om.okna.raduga;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Date;
-import static om.okna.raduga.Raduga.image;
+import static om.okna.raduga.Raduga.iconImage;
 
 public class Loger extends javax.swing.JFrame {
 
@@ -19,7 +20,8 @@ public class Loger extends javax.swing.JFrame {
 
     public Loger() {
         initComponents();
-        setIconImage(image.getImage());
+        //setIconImage(image.getImage());
+        //this.setLocationRelativeTo(this);
     }
     
     static void out(String s){
@@ -32,7 +34,21 @@ public class Loger extends javax.swing.JFrame {
     }
     
     static void out(String[] s){
-        Arrays.toString(s);
+        out(Arrays.toString(s));
+    }
+    
+    static void out(String[][] data){
+        for(int x=0;x<data.length;x++){
+            String s="Cтрока из массива: "+x+" {";
+            for(int y=0;y<Array.getLength(data);y++){
+                s+="["+data[x][y].toString()+"]";
+            }
+            out(s+"}");
+        }
+    }
+    
+    static void out(boolean b){
+        out(String.valueOf(b));
     }
     
     static void out(int i){

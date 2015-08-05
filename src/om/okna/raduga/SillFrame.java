@@ -1,21 +1,20 @@
-package om.okna.sill;
+package om.okna.raduga;
 
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static om.okna.raduga.Raduga.iconImage;
 
 /**
  *
  * @author Виктор
  */
-public class MainSillFrame extends javax.swing.JFrame {
-
-    static ImageIcon image = new ImageIcon(MainSillFrame.class.getResource("/favicon.png"));
+public class SillFrame extends javax.swing.JFrame {
     
-    public MainSillFrame() {
+    public SillFrame() {
         setLocationRelativeTo(null);
-        setIconImage(image.getImage());
+        setIconImage(iconImage.getImage());
         initComponents();
     }
     
@@ -65,7 +64,7 @@ public class MainSillFrame extends javax.swing.JFrame {
         ResultsField = new javax.swing.JTextField();
         ResultsCleanButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Калькулятор подоконников");
         setResizable(false);
 

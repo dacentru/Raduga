@@ -1,16 +1,17 @@
 package om.okna.raduga;
 
 import java.awt.event.KeyEvent;
-import static om.okna.raduga.MainFrame.getSelectidId;
-import static om.okna.raduga.MainFrame.refreshButton;
-import static om.okna.raduga.MainFrame.sendMessage;
-import static om.okna.raduga.Raduga.image;
+import static om.okna.raduga.Main.customersTable;
+import static om.okna.raduga.Main.removeRow;
+import static om.okna.raduga.Main.sendMessage;
+import static om.okna.raduga.Options.debugMode;
+import static om.okna.raduga.Raduga.iconImage;
 
 public class PasswordFrame extends javax.swing.JFrame {
 
     public PasswordFrame() {
         initComponents();
-        setIconImage(image.getImage());
+        setIconImage(iconImage.getImage());
     }
 
     @SuppressWarnings("unchecked")
@@ -81,12 +82,11 @@ public class PasswordFrame extends javax.swing.JFrame {
         String pass = new String(jPasswordField1.getPassword());
         String name = jTextField1.getText().toLowerCase();
         if("dmitriy".equals(name) & "repinboss12345".equals(pass)){
-            Loger.out("Пароль принят.");
-            new SQLHandler().removeData(getSelectidId());
+            if(debugMode)Loger.out("Пароль принят.");
+            removeRow(customersTable);
         }else{
             sendMessage("Введен неверный логин или пароль.");
         }
-        refreshButton.doClick();
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -1,10 +1,10 @@
-package om.okna.sill;
+package om.okna.raduga;
 
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
-import static om.okna.sill.MainSillFrame.ResultsField;
-import static om.okna.sill.MainSillFrame.SegmentsTextPane;
-import static om.okna.sill.MainSillFrame.ValueTable;
+import static om.okna.raduga.SillFrame.ResultsField;
+import static om.okna.raduga.SillFrame.SegmentsTextPane;
+import static om.okna.raduga.SillFrame.ValueTable;
 
 /**
  *

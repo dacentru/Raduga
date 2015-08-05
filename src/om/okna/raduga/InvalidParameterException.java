@@ -1,4 +1,4 @@
-package om.okna.sill;
+package om.okna.raduga;
 
 @SuppressWarnings("serial")
 public class InvalidParameterException extends RuntimeException {

@@ -5,18 +5,39 @@
  */
 package om.okna.raduga;
 
+import javax.swing.JTable;
+import static om.okna.raduga.Main.clearTable;
+import static om.okna.raduga.Main.tableModel;
+import static om.okna.raduga.Options.debugMode;
+import static om.okna.raduga.SQLHandler.selectDataFromTable;
+
 /**
  *
  * @author Виктор
  */
-public class ChoiseFrame extends javax.swing.JFrame {
+public class ChoiseUser extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ChoiseFrame
-     */
-    public ChoiseFrame() {
+    String field[]={"id","username","email","security"};
+    
+    public ChoiseUser() {
         initComponents();
-        new SQLHandler().getUserList();
+        getUsers();
+    }
+    
+    private void getUsers(){
+        String[][] data=selectDataFromTable(field,"users");
+        for (String[] s : data) {
+            fillTable(s);
+        }
+    }
+    
+    private void fillTable(String[] s){
+        tableModel(userListTable).addRow(s);
+    }
+    
+    private int getIdFromRow(JTable t){
+        int result=t.getValueAt(t.getSelectedRow(),0).hashCode();
+        return result;
     }
     
     @SuppressWarnings("unchecked")
@@ -24,11 +45,11 @@ public class ChoiseFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         сancelButton = new javax.swing.JToggleButton();
-        chooseButton = new javax.swing.JButton();
+        removeButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         userListTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
 
         сancelButton.setText("Отмена");
@@ -38,10 +59,10 @@ public class ChoiseFrame extends javax.swing.JFrame {
             }
         });
 
-        chooseButton.setText("Выбрать");
-        chooseButton.addActionListener(new java.awt.event.ActionListener() {
+        removeButton.setText("Удалить");
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chooseButtonActionPerformed(evt);
+                removeButtonActionPerformed(evt);
             }
         });
 
@@ -50,14 +71,14 @@ public class ChoiseFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "User"
+                "ID", "User", "eMail"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -68,10 +89,16 @@ public class ChoiseFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        userListTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                userListTableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(userListTable);
         if (userListTable.getColumnModel().getColumnCount() > 0) {
             userListTable.getColumnModel().getColumn(0).setMaxWidth(50);
             userListTable.getColumnModel().getColumn(1).setResizable(false);
+            userListTable.getColumnModel().getColumn(2).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -82,8 +109,8 @@ public class ChoiseFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(chooseButton)
+                        .addGap(0, 172, Short.MAX_VALUE)
+                        .addComponent(removeButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(сancelButton))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
@@ -97,24 +124,39 @@ public class ChoiseFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(сancelButton)
-                    .addComponent(chooseButton))
+                    .addComponent(removeButton))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void chooseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseButtonActionPerformed
-        //new UserEditFrame().editUser(userList.getAnchorSelectionIndex());
-    }//GEN-LAST:event_chooseButtonActionPerformed
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+        if(getIdFromRow(userListTable)<=0){
+            Loger.out("ОШШИБКААААААААААА!1111111");
+        }else{
+            Loger.out("Удаляем пользователя с ID: "
+                +getIdFromRow(userListTable));
+        }
+        clearTable(userListTable);
+        getUsers();
+    }//GEN-LAST:event_removeButtonActionPerformed
 
     private void сancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_сancelButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_сancelButtonActionPerformed
 
+    private void userListTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userListTableMouseClicked
+        if(evt.getClickCount()>=2){
+            String row=(String) tableModel(userListTable).getValueAt(userListTable.getSelectedRow(),0);
+            new UserEdit(Integer.valueOf(row));
+            this.dispose();
+        }
+    }//GEN-LAST:event_userListTableMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton chooseButton;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton removeButton;
     public static javax.swing.JTable userListTable;
     private javax.swing.JToggleButton сancelButton;
     // End of variables declaration//GEN-END:variables

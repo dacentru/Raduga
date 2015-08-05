@@ -7,86 +7,97 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import static om.okna.raduga.ChoiseFrame.userListTable;
-import static om.okna.raduga.MainFrame.MainTable;
+import static om.okna.raduga.Main.customersTable;
+import static om.okna.raduga.Options.DB_URL;
+import static om.okna.raduga.Options.JDBC_DRIVER;
+import static om.okna.raduga.Options.PASS;
+import static om.okna.raduga.Options.USER;
+import static om.okna.raduga.Options.debugMode;
 
+/**
+ *
+ * @author Виктор
+ */
 public class SQLHandler {
     
+    private static Connection con;
+    private static Statement stmt;
+    private static ResultSet rs;
+    private static PreparedStatement ps;
+    
+    static boolean accessSQL=true;
+    
     public SQLHandler(){
-        readArraySQL();
+        try {
+            Class.forName(JDBC_DRIVER);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SQLHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(accessSQL){
+            //refreshTable(customersTable);
+        }else{
+            if(debugMode)Loger.out("Все накрылось к хуям, база данных неработает");
+        }
+        //DriverManager.setLogStream(System.out); 
     }
     
     public void readArraySQL() {
-        Connection conn = null;
-        Statement stmt = null;
+        DefaultTableModel model = (DefaultTableModel) customersTable.getModel();
+        String query = "SELECT "
+                + "id,"
+                + "client,"
+                + "object,"
+                + "contract,"
+                + "nomination,"
+                + "size,"
+                + "contact_inside,"
+                + "contact_outside,"
+                + "date_start,"
+                + "date_end,"
+                + "date_confirmation,"
+                + "price, note,"
+                + "payment,"
+                + "debt"
+                + " FROM registry";
         try {
-            Class.forName(Options.JDBC_DRIVER);
-            conn = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS);
-            stmt = conn.createStatement();
-            String sql = "SELECT "
-                    + "id,"
-                    + "client,"
-                    + "object,"
-                    + "contract,"
-                    + "nomination,"
-                    + "size,"
-                    + "contact_inside,"
-                    + "contact_outside,"
-                    + "date_start,"
-                    + "date_end,"
-                    + "date_confirmation,"
-                    + "price, note,"
-                    + "payment,"
-                    + "debt"
-                    + " FROM registry";
-
-            try (ResultSet rs = stmt.executeQuery(sql)) {
-                DefaultTableModel model = (DefaultTableModel) MainTable.getModel();
-                while (rs.next()) {
-                    model.addRow(new Object[]{
-                        rs.getInt("id"),
-                        rs.getString("client"),
-                        rs.getString("object"),
-                        rs.getString("contract"),
-                        rs.getString("nomination"),
-                        rs.getString("size"),
-                        rs.getString("contact_inside"),
-                        rs.getString("contact_outside"),
-                        rs.getString("date_start"),
-                        rs.getString("date_end"),
-                        rs.getString("date_confirmation"),
-                        rs.getString("price"),
-                        rs.getString("note"),
-                        rs.getString("payment"),
-                        rs.getString("debt")
-                    });
-                }
+            con = DriverManager.getConnection(DB_URL,USER,PASS);
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getInt("id"),
+                    rs.getString("client"),
+                    rs.getString("object"),
+                    rs.getString("contract"),
+                    rs.getString("nomination"),
+                    rs.getString("size"),
+                    rs.getString("contact_inside"),
+                    rs.getString("contact_outside"),
+                    rs.getString("date_start"),
+                    rs.getString("date_end"),
+                    rs.getString("date_confirmation"),
+                    rs.getString("price"),
+                    rs.getString("note"),
+                    rs.getString("payment"),
+                    rs.getString("debt")
+                });
             }
-            stmt.close();
-            conn.close();
-        } catch (SQLException se) {
+        }catch(SQLException se){
             se.printStackTrace();
-        } catch (Exception e) {
+        }catch(Exception e){
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException se2) {
-            }
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
+        }finally{
+            try{con.close();}catch(SQLException se){se.printStackTrace();}
+            try{stmt.close();}catch(SQLException se){se.printStackTrace();}
+            try{rs.close();}catch(SQLException se){se.printStackTrace();}
         }
     }
     
     void newClient(String[] data){
+        System.out.println(Arrays.toString(data));
         String query = "insert into registry "
                 + "(client,"
                 + "object,"
@@ -102,10 +113,9 @@ public class SQLHandler {
                 + "note,"
                 + "payment,"
                 + "debt) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        try{
-            Class.forName(Options.JDBC_DRIVER);
-            try (Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS)) {
-                PreparedStatement ps = con.prepareStatement(query);
+            try{
+                con = DriverManager.getConnection(DB_URL,USER,PASS);
+                ps = con.prepareStatement(query);
                 
                 ps.setString(1, data[1]);
                 ps.setString(2, data[2]);
@@ -123,110 +133,122 @@ public class SQLHandler {
                 ps.setString(14, data[14]);
                 
                 ps.execute();
-            }
-        }catch(ClassNotFoundException | SQLException e){
-            Loger.out(e);
+        }catch(SQLException se){
+            se.printStackTrace();
+        }finally{
+            try{con.close();}catch(SQLException se){se.printStackTrace();}
+            try{stmt.close();}catch(SQLException se){se.printStackTrace();}
+            try{ps.close();}catch(SQLException se){se.printStackTrace();}
         }
     }
     
     void updateData(String[] data){
-        String query = "update registry set "
-                + "client=?,"
-                + "object=?,"
-                + "contract=?,"
-                + "nomination=?,"
-                + "size=?,"
-                + "contact_inside=?,"
-                + "contact_outside=?,"
-                + "date_start=?,"
-                + "date_end=?,"
-                + "date_confirmation=?,"
-                + "price=?,"
-                + "note=?,"
-                + "payment=?,"
-                + "debt=? where id =?";
+        String query="update registry set "
+                +"client=?,"
+                +"object=?,"
+                +"contract=?,"
+                +"nomination=?,"
+                +"size=?,"
+                +"contact_inside=?,"
+                +"contact_outside=?,"
+                +"date_start=?,"
+                +"date_end=?,"
+                +"date_confirmation=?,"
+                +"price=?,"
+                +"note=?,"
+                +"payment=?,"
+                +"debt=? where id =?";
         try {
-            Class.forName(Options.JDBC_DRIVER);
-            try (Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS)) {
-                PreparedStatement ps = con.prepareStatement(query);
-                
-                ps.setString(1, data[1]);
-                ps.setString(2, data[2]);
-                ps.setString(3, data[3]);
-                ps.setString(4, data[4]);
-                ps.setString(5, data[5]);
-                ps.setString(6, data[6]);
-                ps.setString(7, data[7]);
-                ps.setString(8, data[8]);
-                ps.setString(9, data[9]);
-                ps.setString(10, data[10]);
-                ps.setString(11, data[11]);
-                ps.setString(12, data[12]);
-                ps.setString(13, data[13]);
-                ps.setString(14, data[14]);
-                ps.setString(15, data[0]);
-                
-                ps.executeUpdate();
-            }
-        }catch(ClassNotFoundException | SQLException e){
-            Loger.out(e);
+            con = DriverManager.getConnection(DB_URL,USER,PASS);
+            ps = con.prepareStatement(query);
+
+            ps.setString(1, data[1]);
+            ps.setString(2, data[2]);
+            ps.setString(3, data[3]);
+            ps.setString(4, data[4]);
+            ps.setString(5, data[5]);
+            ps.setString(6, data[6]);
+            ps.setString(7, data[7]);
+            ps.setString(8, data[8]);
+            ps.setString(9, data[9]);
+            ps.setString(10, data[10]);
+            ps.setString(11, data[11]);
+            ps.setString(12, data[12]);
+            ps.setString(13, data[13]);
+            ps.setString(14, data[14]);
+            ps.setString(15, data[0]);
+
+            ps.executeUpdate();
+        }catch(SQLException se){
+            se.printStackTrace();
+        }finally{
+            try{con.close();}catch(SQLException se){se.printStackTrace();}
+            try{stmt.close();}catch(SQLException se){se.printStackTrace();}
+            try{ps.close();}catch(SQLException se){se.printStackTrace();}
         }
     }
     
     void removeData(int id){
-        String query = "delete from registry where id =?";
-        try {
-            Class.forName(Options.JDBC_DRIVER);
-            try (Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS)) {
-                PreparedStatement ps = con.prepareStatement(query);
-                
-                ps.setInt(1, id);
-                
-                ps.executeUpdate();
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            Loger.out(e);
+        String query = "DELETE FROM registry WHERE id =?";
+        try{
+            //Class.forName(JDBC_DRIVER);
+            con=DriverManager.getConnection(DB_URL,USER,PASS);
+            ps=con.prepareStatement(query);
+
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+        }catch(SQLException se){
+            se.printStackTrace();
+        }finally{
+            try{con.close();}catch(SQLException se){se.printStackTrace();}
+            try{stmt.close();}catch(SQLException se){se.printStackTrace();}
+            try{ps.close();}catch(SQLException se){se.printStackTrace();}
         }
     }
 
     String userLogin(String user) {
         String query = "select password from raduga.users where username='"+user+"'";
-        String res = null;
-        try {
-            Class.forName(Options.JDBC_DRIVER);
-            Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS);
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+        String result = null;
+        try{
+            con=DriverManager.getConnection(DB_URL,USER,PASS);
+            stmt=con.createStatement();
+            rs=stmt.executeQuery(query);
             while(rs.next()){
-                res = rs.getString(1);
+                result = rs.getString(1);
             }
-            st.close();
+            System.out.println(result);
+            stmt.close();
             con.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            Loger.out(e);
+        }catch(SQLException se){
+            se.printStackTrace();
+        }finally{
+            try{con.close();}catch(SQLException se){se.printStackTrace();}
+            try{stmt.close();}catch(SQLException se){se.printStackTrace();}
+            try{rs.close();}catch(SQLException se){se.printStackTrace();}
         }
-        return res;
+        return result;
     }
 
-    int userAccess(String user) {
+    static int selectSecurityFromUsersWhereUsername(String user) {
         String query = "select security from users where username='"+user+"'";
-        int res = 0;
+        int result = 0;
         try {
-            Class.forName(Options.JDBC_DRIVER);
-            try (Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS); Statement st = con.createStatement()) {
-                ResultSet rs = st.executeQuery(query);
-                while(rs.next()){
-                    res = rs.getInt(1);
-                }
+            //Class.forName(JDBC_DRIVER);
+            con = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                result = rs.getInt(1);
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            Loger.out(e);
+        } catch (SQLException se) {
+            se.printStackTrace();
         }
-        return res;
+        return result;
     }
 
     void addUser(String[] data) {
-        String query = "insert into users "
+        String query = "INSERT INTO users "
                 + "(username,"
                 + "password,"
                 + "email,"
@@ -235,9 +257,8 @@ public class SQLHandler {
                 + "patronymic_name,"
                 + "security) values (?,?,?,?,?,?,?)";
         try{
-            Class.forName(Options.JDBC_DRIVER);
-            Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS);
-            PreparedStatement ps = con.prepareStatement(query);
+            con = DriverManager.getConnection(DB_URL,USER,PASS);
+            ps = con.prepareStatement(query);
             
             ps.setString(1, data[1]);
             ps.setString(2, data[2]);
@@ -248,34 +269,40 @@ public class SQLHandler {
             ps.setString(7, data[7]);
             
             ps.execute();
-            con.close();
-        }catch(ClassNotFoundException | SQLException e){
-            Loger.out(e);
+        }catch(SQLException se){
+            se.printStackTrace();
+        }finally{
+            try{con.close();}catch(SQLException se){se.printStackTrace();}
+            try{stmt.close();}catch(SQLException se){se.printStackTrace();}
+            try{ps.close();}catch(SQLException se){se.printStackTrace();}
         }
     }
 
     String[] getUserData(int id) {
-        String query = "select * from raduga.users where id='"+id+"'";
+        String query = "select * from raduga.users where id="+id;
         String[] data = new String[9];
         try {
-            Class.forName(Options.JDBC_DRIVER);
-            try (Connection con = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS); Statement st = con.createStatement()) {
-                ResultSet rs = st.executeQuery(query);
-                while(rs.next()){
-                    data[0] = rs.getString(1);
-                    data[1] = rs.getString(2);
-                    data[2] = rs.getString(3);
-                    data[3] = rs.getString(4);
-                    data[4] = rs.getString(5);
-                    data[5] = rs.getString(6);
-                    data[6] = rs.getString(7);
-                    data[7] = rs.getString(8);
-                    data[8] = rs.getString(9);
-                }
-                Loger.out(data);
+            con = DriverManager.getConnection(DB_URL,USER,PASS);
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                data[0] = rs.getString(1);
+                data[1] = rs.getString(2);
+                data[2] = rs.getString(3);
+                data[3] = rs.getString(4);
+                data[4] = rs.getString(5);
+                data[5] = rs.getString(6);
+                data[6] = rs.getString(7);
+                data[7] = rs.getString(8);
+                data[8] = rs.getString(9);
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            Loger.errout(e);
+            if(debugMode)Loger.out(data);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }finally{
+            try{con.close();}catch(SQLException se){se.printStackTrace();}
+            try{stmt.close();}catch(SQLException se){se.printStackTrace();}
+            try{rs.close();}catch(SQLException se){se.printStackTrace();}
         }
         return data;
     }
@@ -285,45 +312,97 @@ public class SQLHandler {
         Loger.errout("НЕ РАБОТАЕТ");
         throw new UnsupportedOperationException("НЕ РАБОТАЕТ"); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    static int getYArrayLenght(String query){
+        int result=0;
+        try{
+            con = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                result++;
+            }
+        }catch(SQLException se) {
+            se.printStackTrace();
+        }finally{
+            try{con.close();}catch(SQLException se){se.printStackTrace();}
+            try{stmt.close();}catch(SQLException se){se.printStackTrace();}
+            try{rs.close();}catch(SQLException se){se.printStackTrace();}
+        }
+        return result;
+    }
 
-    void getUserList() {
-        Connection conn = null;
-        Statement stmt = null;
+    private int getXArrayLenght(String query){
+        int result=0;
+        try{
+            con = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                result++;
+            }
+        }catch(SQLException se) {
+            se.printStackTrace();
+        }finally{
+            try{con.close();}catch(SQLException se){se.printStackTrace();}
+            try{stmt.close();}catch(SQLException se){se.printStackTrace();}
+            try{rs.close();}catch(SQLException se){se.printStackTrace();}
+        }
+        return result;
+    }
+    
+    static String[][] selectDataFromTable(String[] data,String table) {
+        int x;
+        int y=0;
+        String datas=data[0];
+        for (x=1; x<data.length;x++) {
+            datas+=", "+data[x];
+        }
+        String query = "SELECT "+datas+" FROM "+table;
+        String[][] result=new String[getYArrayLenght(query)][data.length];
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(Options.DB_URL, Options.USER, Options.PASS);
-            stmt = conn.createStatement();
-            String sql = "SELECT id, username FROM users";
-
-            try (ResultSet rs = stmt.executeQuery(sql)) {
-                DefaultTableModel model = (DefaultTableModel) userListTable.getModel();
-                while (rs.next()){
-                    model.addRow(new Object[] {
-                        rs.getInt("id"),
-                        rs.getString("username")
-                    });
+            con = DriverManager.getConnection(DB_URL,USER,PASS);
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            if(debugMode)Loger.out("Отправлен запрос: "+query);
+            while (rs.next()) {
+                for(x=0;x<data.length;x++){
+                    //if(debugMode)Loger.out("Строка: "+y+" ячейка: "+x+" "+rs.getString(data[x]));
+                    result[y][x]=rs.getString(data[x]);
+                }
+                y++;
+            }
+        }catch(SQLException se){se.printStackTrace();}
+        finally{
+            try{
+                con.close();
+                stmt.close();
+                rs.close();
+            }catch(SQLException se){se.printStackTrace();}
+        }
+        return result;
+    }
+    
+    String[] selectAllFromTableWhereId(String table,int id) {
+        String query = "select * from "+table+" where id="+id;
+        String[] result=new String[getXArrayLenght(query)];//хуй получим, нужно думать
+        if(debugMode)Loger.out(result.length);
+        try {
+            con = DriverManager.getConnection(DB_URL,USER,PASS);
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                for(int i=0,q=1;i<result.length;i++,q++){
+                    result[i]=rs.getString(q);
                 }
             }
-            stmt.close();
-            conn.close();
         } catch (SQLException se) {
             se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException se2) {
-            }
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
+        }finally{
+            try{con.close();}catch(SQLException se){se.printStackTrace();}
+            try{stmt.close();}catch(SQLException se){se.printStackTrace();}
+            try{rs.close();}catch(SQLException se){se.printStackTrace();}
         }
+        return result;
     }
 }

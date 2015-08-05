@@ -1,4 +1,4 @@
-package om.okna.sill;
+package om.okna.raduga;
 
 import java.util.HashMap;
 import java.util.List;
